@@ -4,6 +4,7 @@ Java Spring 学习笔记
 
 阅读 Spring 源码，绘制主流程的思维导图。
 
+学习入口： tech.gdev.springbasicexplore.AppCodeExplore.main
 
 
 
