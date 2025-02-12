@@ -12,6 +12,7 @@
   <modules>
     <module>java-basic-explore</module>
     <module>spring-basic-explore</module>
+    <module>web-basic-explore</module>
   </modules>
 
   <properties>
