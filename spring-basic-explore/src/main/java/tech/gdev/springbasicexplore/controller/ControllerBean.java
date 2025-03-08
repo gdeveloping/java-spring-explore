@@ -12,6 +12,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
 import java.util.Collections;
 import java.util.Map;
 
@@ -39,14 +42,17 @@ public class ControllerBean {
     }
 
     @GetMapping("/person-info")
-    public Map build(@RequestBody PersonInfo personInfo) {
+    public Map build(@Valid @RequestBody PersonInfo personInfo) {
         return Collections.singletonMap("body", "Hello, " + personInfo.name);
     }
 
     @Getter
     @Setter
     static class PersonInfo {
+        @NotBlank
         private String name;
+
+        @Positive
         private int age;
     }
 }
