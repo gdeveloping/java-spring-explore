@@ -4,6 +4,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.validator.constraints.Length;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -13,6 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import tech.gdev.springbasicexplore.async.AsyncBeanA;
+import tech.gdev.springbasicexplore.async.AsyncBeanB;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -29,6 +32,11 @@ import java.util.Map;
 @Validated
 @Log4j2
 public class ControllerBean {
+    @Autowired
+    AsyncBeanA asyncBeanA;
+
+    @Autowired
+    AsyncBeanB asyncBeanB;
 
     @GetMapping("/hello")
     public Map hello(@RequestParam(value = "name", required = false) String name) {
@@ -46,6 +54,13 @@ public class ControllerBean {
     @GetMapping("/person-info")
     public Map build(@Validated @RequestBody PersonInfo personInfo) {
         return Collections.singletonMap("body", "Hello, " + personInfo.name);
+    }
+
+    @GetMapping("/async")
+    public Map async() {
+        asyncBeanA.asyncMethodA();
+        asyncBeanB.asyncMethodB();
+        return Collections.singletonMap("body", "async");
     }
 
     @Getter
