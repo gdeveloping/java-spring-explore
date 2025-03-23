@@ -1,24 +1,22 @@
 package tech.gdev.springbasicexplore.async;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.core.annotation.Order;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Component;
 
 /**
  * @author gdev
- * @date 2025/3/19 21:36
+ * @date 2025/3/19 21:35
  */
 @Component
-@Order(20)
-public class AsyncBeanB {
+@Order(10)
+public class AsyncCircularBeanA {
     @Autowired
-    @Lazy
-    private AsyncBeanA asyncBeanA;
+    private AsyncCircularBeanB asyncCircularBeanB;
 
     @Async
-    public void asyncMethodB() {
-        System.out.println("AsyncBeanB.asyncMethodB. " + asyncBeanA.toString());
+    public void asyncMethodA() {
+        System.out.println("AsyncBeanA.asyncMethodA. asyncCircularBeanB: " + asyncCircularBeanB.toString());
     }
 }

@@ -15,10 +15,10 @@ public class AsyncExplore {
         applicationContext.refresh();
         AsyncBean asyncBean = applicationContext.getBean(AsyncBean.class);
         asyncBean.async();
-        AsyncBeanA asyncBeanA = applicationContext.getBean(AsyncBeanA.class);
-        asyncBeanA.asyncMethodA();
-        AsyncBeanB asyncBeanB = applicationContext.getBean(AsyncBeanB.class);
-        asyncBeanB.asyncMethodB();
+        AsyncCircularBeanA asyncCircularBeanA = applicationContext.getBean(AsyncCircularBeanA.class);
+        asyncCircularBeanA.asyncMethodA();
+        AsyncCircularBeanB asyncCircularBeanB = applicationContext.getBean(AsyncCircularBeanB.class);
+        asyncCircularBeanB.asyncMethodB();
         Thread.sleep(10*1000L);
         applicationContext.close();
     }

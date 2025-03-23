@@ -14,8 +14,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import tech.gdev.springbasicexplore.async.AsyncBeanA;
-import tech.gdev.springbasicexplore.async.AsyncBeanB;
+import tech.gdev.springbasicexplore.async.AsyncCircularBeanA;
+import tech.gdev.springbasicexplore.async.AsyncCircularBeanB;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
@@ -33,10 +33,10 @@ import java.util.Map;
 @Log4j2
 public class ControllerBean {
     @Autowired
-    AsyncBeanA asyncBeanA;
+    AsyncCircularBeanA asyncCircularBeanA;
 
     @Autowired
-    AsyncBeanB asyncBeanB;
+    AsyncCircularBeanB asyncCircularBeanB;
 
     @GetMapping("/hello")
     public Map hello(@RequestParam(value = "name", required = false) String name) {
@@ -58,8 +58,8 @@ public class ControllerBean {
 
     @GetMapping("/async")
     public Map async() {
-        asyncBeanA.asyncMethodA();
-        asyncBeanB.asyncMethodB();
+        asyncCircularBeanA.asyncMethodA();
+        asyncCircularBeanB.asyncMethodB();
         return Collections.singletonMap("body", "async");
     }
 
