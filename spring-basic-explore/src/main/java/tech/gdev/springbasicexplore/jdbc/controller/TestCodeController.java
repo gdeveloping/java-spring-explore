@@ -84,10 +84,22 @@ public class TestCodeController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("/debug/update-then-rollback")
-    public ResponseEntity<TestCode> updateThenRollbackById(@RequestBody TestCode testCode) {
+    @PostMapping("/debug/update-then-rollback1")
+    public ResponseEntity<TestCode> updateThenRollbackById1(@RequestBody TestCode testCode) {
         try {
-            testCodeService.updateThenRollbackById(testCode);
+            testCodeService.updateThenRollbackById1(testCode);
+        } catch (DebugRuntimeException e) {
+            // ignore
+        }
+        testCode = testCodeService.getById(testCode.getId());
+        log.info("after-rollback testCode: {}", testCode);
+        return ResponseEntity.ok(testCode);
+    }
+
+    @PostMapping("/debug/update-then-rollback2")
+    public ResponseEntity<TestCode> updateThenRollbackById2(@RequestBody TestCode testCode) {
+        try {
+            testCodeService.updateThenRollbackById2(testCode);
         } catch (DebugRuntimeException e) {
             // ignore
         }

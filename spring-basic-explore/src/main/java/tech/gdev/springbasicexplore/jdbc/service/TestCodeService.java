@@ -55,13 +55,33 @@ public class TestCodeService {
     }
 
     @Transactional(rollbackFor = Exception.class)
-    public int updateThenRollbackById(TestCode testCode) {
+    public int updateThenRollbackById1(TestCode testCode) {
         TestCode current = testCodeMapper.selectById(testCode.getId());
         log.info("current testCode: {}", current);
+
         int res = testCodeMapper.updateById(testCode);
         log.info("update res: {}", res);
+
         TestCode after = testCodeMapper.selectById(testCode.getId());
         log.info("after-update testCode: {}", after);
+
+        throw new DebugRuntimeException("debug Transaction");
+    }
+
+    @Transactional(rollbackFor = Exception.class)
+    public int updateThenRollbackById2(TestCode testCode) {
+        String selectSql = "SELECT * FROM test_code WHERE id = ?";
+        String updateSql = "UPDATE test_code SET code = ?, note = ? WHERE id = ?";
+
+        TestCode current = jdbcTemplate.queryForObject(selectSql, new Object[]{testCode.getId()},
+                (rs, rowNum) -> new TestCode(rs.getInt("id"), rs.getInt("code"), rs.getString("note")));
+        log.info("current testCode: {}", current);
+        int res = jdbcTemplate.update(updateSql, testCode.getCode(), testCode.getNote(), testCode.getId());
+        log.info("update res: {}", res);
+        TestCode after = jdbcTemplate.queryForObject(selectSql, new Object[]{testCode.getId()},
+                (rs, rowNum) -> new TestCode(rs.getInt("id"), rs.getInt("code"), rs.getString("note")));
+        log.info("after-update testCode: {}", after);
+
         throw new DebugRuntimeException("debug Transaction");
     }
 }
