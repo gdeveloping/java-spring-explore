@@ -12,7 +12,6 @@ import org.springframework.context.support.ReloadableResourceBundleMessageSource
 import tech.gdev.springbasicexplore.async.AsyncBean;
 import tech.gdev.springbasicexplore.beanlifecycle.BeanLifeCycle;
 import tech.gdev.springbasicexplore.event.EventBean;
-import tech.gdev.springbasicexplore.transaction.TransactionBean;
 
 @Configuration
 @ComponentScan(basePackages = "tech.gdev.springbasicexplore",
@@ -26,9 +25,6 @@ public class AppCodeExplore {
 
         AsyncBean asyncBean = context.getBean(AsyncBean.class);
         asyncBean.async();
-
-        TransactionBean transactionBean = context.getBean(TransactionBean.class);
-        transactionBean.transaction();
 
         EventBean eventBean = new EventBean(beanLifeCycle);
         context.publishEvent(eventBean);
