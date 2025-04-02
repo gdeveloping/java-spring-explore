@@ -11,7 +11,7 @@ import org.springframework.context.annotation.PropertySource;
 @ComponentScan(basePackages = "tech.gdev.springbasicexplore",
         excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = AppCodeExplore.class))
 @PropertySource("classpath:application.properties")
-@MapperScan
+@MapperScan(basePackages = "tech.gdev.springbasicexplore.jdbc.mapper")
 public class App {
     public static void main(String[] args) {
         SpringApplication.run(App.class, args);
