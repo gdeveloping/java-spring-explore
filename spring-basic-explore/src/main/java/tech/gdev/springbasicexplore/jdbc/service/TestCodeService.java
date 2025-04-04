@@ -4,7 +4,11 @@ import lombok.extern.log4j.Log4j2;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.PlatformTransactionManager;
+import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.transaction.support.DefaultTransactionDefinition;
+import org.springframework.transaction.support.TransactionTemplate;
 import tech.gdev.springbasicexplore.jdbc.entity.TestCode;
 import tech.gdev.springbasicexplore.jdbc.mapper.TestCodeMapper;
 import tech.gdev.springbasicexplore.support.exception.runtimeexception.DebugRuntimeException;
@@ -24,6 +28,12 @@ public class TestCodeService {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
+    @Autowired
+    private TransactionTemplate transactionTemplate;
+
+    @Autowired
+    private PlatformTransactionManager transactionManager;
+
     public TestCode getById(int id) {
         return testCodeMapper.selectById(id);
     }
@@ -37,11 +47,21 @@ public class TestCodeService {
     }
 
     public int save(TestCode testCode) {
-        return testCodeMapper.insert(testCode);
+        DefaultTransactionDefinition def = new DefaultTransactionDefinition();
+        TransactionStatus status = transactionManager.getTransaction(def);
+        int res = 0;
+        try {
+            res = testCodeMapper.insert(testCode);
+        } catch (Exception e) {
+            transactionManager.rollback(status);
+            return res;
+        }
+        transactionManager.commit(status);
+        return res;
     }
 
     public int delete(int id) {
-        return testCodeMapper.deleteById(id);
+        return transactionTemplate.execute(status -> testCodeMapper.deleteById(id));
     }
 
     @Transactional
