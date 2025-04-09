@@ -9,7 +9,11 @@ import org.springframework.context.annotation.PropertySource;
 
 @SpringBootApplication
 @ComponentScan(basePackages = "tech.gdev.springbasicexplore",
-        excludeFilters = @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = AppCodeExplore.class))
+        excludeFilters = {
+            @ComponentScan.Filter(type = FilterType.ASSIGNABLE_TYPE, classes = AppCodeExplore.class),
+            @ComponentScan.Filter(type = FilterType.REGEX, pattern="tech.gdev.springbasicexplore.local.*")
+        }
+)
 @PropertySource("classpath:application.properties")
 @MapperScan(basePackages = "tech.gdev.springbasicexplore.jdbc.mapper")
 public class App {
