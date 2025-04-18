@@ -17,7 +17,7 @@ CREATE TABLE IF NOT EXISTS test_order (
     FOREIGN KEY (user_id) REFERENCES test_user(id)
 );
 
-CREATE TABLE user
+CREATE TABLE `user`
 (
     id       INT PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(50) NOT NULL,
@@ -30,5 +30,5 @@ CREATE TABLE `order`
     id      INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
     name    VARCHAR(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES user (id)
+    FOREIGN KEY (user_id) REFERENCES `user` (id)
 );

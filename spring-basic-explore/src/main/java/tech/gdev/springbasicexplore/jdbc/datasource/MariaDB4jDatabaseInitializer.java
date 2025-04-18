@@ -1,6 +1,7 @@
 package tech.gdev.springbasicexplore.jdbc.datasource;
 
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
@@ -40,7 +41,7 @@ public class MariaDB4jDatabaseInitializer implements InitializingBean {
         initializeDatabase();
     }
 
-    private void initializeDatabase() throws SQLException {
+    private void initializeDatabase1() throws SQLException {
         for (String location : properties.getSqlLocations()) {
             System.out.println(location.trim());
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
@@ -61,7 +62,7 @@ public class MariaDB4jDatabaseInitializer implements InitializingBean {
         System.out.println("存储过程创建成功！");
     }
 
-    private void initializeDatabase2() throws SQLException, IOException {
+    private void initializeDatabase() throws SQLException, IOException {
         for (String location : properties.getSqlLocations()) {
             if (location.contains("procedure")) {
                 executeProcedureScript(location);
@@ -72,16 +73,11 @@ public class MariaDB4jDatabaseInitializer implements InitializingBean {
     }
 
     private void executeProcedureScript(String location) throws SQLException, IOException {
-        String procedureScript = new ClassPathResource(location.trim()).getInputStream().toString();
+        String procedureScript = FileUtils.readFileToString(new ClassPathResource(location.trim()).getFile());
         System.out.println(procedureScript);
         try (Connection conn = dataSource.getConnection();
              Statement stmt = conn.createStatement()) {
-            // 临时更改分隔符以便正确处理存储过程中的分号
-            stmt.execute("DELIMITER " + DELIMITER);
-            // 执行存储过程创建语句
             stmt.execute(procedureScript);
-            // 恢复默认分隔符
-            stmt.execute("DELIMITER ;");
         }
     }
 

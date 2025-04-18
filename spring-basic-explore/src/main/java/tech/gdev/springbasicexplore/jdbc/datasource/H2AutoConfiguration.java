@@ -26,8 +26,9 @@ public class H2AutoConfiguration {
             ResourceDatabasePopulator populator = new ResourceDatabasePopulator();
             for (String schemaLocation : properties.getSqlLocations()) {
                 if (schemaLocation.contains("procedure")) {
-                    populator.addScript(new ClassPathResource(schemaLocation));
+                    continue;
                 }
+                populator.addScript(new ClassPathResource(schemaLocation));
             }
             populator.execute(dataSource);
         };

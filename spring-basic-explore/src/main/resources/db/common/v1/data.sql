@@ -7,7 +7,7 @@ INSERT INTO test_user VALUES (2, 'Bob', 'bob@example.com');
 INSERT INTO test_order VALUES (1, 1, 99.99);
 INSERT INTO test_order VALUES (2, 2, 199.50);
 
-INSERT INTO user (username, birthday, password)
+INSERT INTO `user` (username, birthday, password)
 VALUES ('Alice', '1990-01-01', 'password1'),
        ('Bob', '1992-02-02', 'password2');
 
