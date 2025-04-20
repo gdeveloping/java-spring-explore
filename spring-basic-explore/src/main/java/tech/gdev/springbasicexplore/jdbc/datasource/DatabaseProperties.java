@@ -15,7 +15,6 @@ public class DatabaseProperties {
     private String type;
     private String name;
     private String[] sqlLocations;
-    private String initMode;
 
     private Mariadb4j mariadb4j;
 
