@@ -1,7 +1,11 @@
 package tech.gdev.springbasicexplore.jdbc.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+import tech.gdev.springbasicexplore.jdbc.entity.Order;
 import tech.gdev.springbasicexplore.jdbc.entity.User;
+
+import java.util.List;
 
 /**
  * @author gdev
@@ -9,5 +13,13 @@ import tech.gdev.springbasicexplore.jdbc.entity.User;
  */
 @Mapper
 public interface UserOrderMapper {
-    User selectUserAndOrders(int id);
+    User selectUserAndOrdersByCallProcedure(int id);
+
+    User selectUserAndOrdersBySubQuery(int id);
+
+    List<User> selectUserAndOrdersByFlatData(Integer id);
+
+    Order selectOrderByUserId(int id);
+
+    Order selectOrderById(int id);
 }
