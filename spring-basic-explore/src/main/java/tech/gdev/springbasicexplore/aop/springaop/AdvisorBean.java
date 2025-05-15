@@ -16,7 +16,7 @@ public class AdvisorBean implements Advisor {
     private static MethodBeforeAdvice methodBeforeAdvice = new MethodBeforeAdvice() {
         @Override
         public void before(Method method, Object[] args, Object target) throws Throwable {
-            System.out.println("Before advice AdvisorBean for method: " + method.getName());
+            System.out.println("[SpringAOP][AdvisorBean] Before advice AdvisorBean for method: " + method.getName());
         }
     };
 

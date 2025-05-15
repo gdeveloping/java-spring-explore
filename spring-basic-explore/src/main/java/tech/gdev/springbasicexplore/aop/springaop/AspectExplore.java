@@ -24,6 +24,14 @@ public class AspectExplore {
             System.out.println("not a IntroductionService");
         }
 
+        AspectOperation aspectOperation = applicationContext.getBean(AspectOperation.class);
+        aspectOperation.serviceInterface();
+        if (aspectOperation instanceof AspectOperationImpl) {
+            ((AspectOperationImpl) aspectOperation).serviceMethod();
+        } else {
+            System.out.println("not a AspectOperationImpl");
+        }
+
         Thread.sleep(10*1000L);
         applicationContext.close();
     }
