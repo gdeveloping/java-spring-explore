@@ -17,6 +17,13 @@ public class AspectExplore {
         aspectCircularBeanA.aspectMethodA();
         aspectCircularBeanB.aspectMethodB();
 
+        AspectAction aspectAction = applicationContext.getBean(AspectAction.class);
+        if (aspectAction instanceof IntroductionService) {
+            ((IntroductionService) aspectAction).service();
+        } else {
+            System.out.println("not a IntroductionService");
+        }
+
         Thread.sleep(10*1000L);
         applicationContext.close();
     }
