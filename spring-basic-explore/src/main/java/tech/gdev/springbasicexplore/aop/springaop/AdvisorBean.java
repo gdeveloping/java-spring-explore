@@ -3,15 +3,14 @@ package tech.gdev.springbasicexplore.aop.springaop;
 import org.aopalliance.aop.Advice;
 import org.springframework.aop.Advisor;
 import org.springframework.aop.MethodBeforeAdvice;
-import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
 
 /**
+ * 仅在 {@link AspectExplore} 中测试使用，未使用 @Component 修饰。
  * @author gdev
  * @date 2025/5/13 22:55
  */
-@Component
 public class AdvisorBean implements Advisor {
     private static MethodBeforeAdvice methodBeforeAdvice = new MethodBeforeAdvice() {
         @Override
