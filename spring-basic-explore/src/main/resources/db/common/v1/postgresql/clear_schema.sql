@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS test_code;
+DROP TABLE IF EXISTS test_user;
+DROP TABLE IF EXISTS test_order;
+DROP TABLE IF EXISTS "user";
+DROP TABLE IF EXISTS "order";
+
+DROP PROCEDURE IF EXISTS get_user_and_orders;
+

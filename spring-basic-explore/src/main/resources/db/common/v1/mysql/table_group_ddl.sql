@@ -13,8 +13,7 @@ CREATE TABLE IF NOT EXISTS test_user (
 CREATE TABLE IF NOT EXISTS test_order (
     id      INT PRIMARY KEY,
     user_id INT,
-    amount  DECIMAL(10, 2),
-    FOREIGN KEY (user_id) REFERENCES test_user(id)
+    amount  DECIMAL(10, 2)
 );
 
 CREATE TABLE `user`
@@ -29,6 +28,5 @@ CREATE TABLE `order`
 (
     id      INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT,
-    name    VARCHAR(50) NOT NULL,
-    FOREIGN KEY (user_id) REFERENCES `user` (id)
+    name    VARCHAR(50) NOT NULL
 );
