@@ -1,6 +1,13 @@
 package tech.gdev.springbasicexplore.aop.springaop;
 
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.util.ClassUtils;
+import org.springframework.util.ReflectionUtils;
+
+import java.lang.reflect.Method;
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * @author gdev
@@ -51,6 +58,21 @@ public class AspectExplore {
         } else {
             System.out.println("[SpringAOP][ProxyType] not a AspectOperationCglibProxyImpl");
         }
+
+        // 打印内容如下：
+        // interfaceSet: [interface tech.gdev.springbasicexplore.aop.springaop.AspectOperationJdkProxy]
+        // methodsFromInterface: [public abstract void tech.gdev.springbasicexplore.aop.springaop.AspectOperationJdkProxy.serviceInterface()]
+        // methodsFromImpl: [public void tech.gdev.springbasicexplore.aop.springaop.AspectOperationJdkProxyImpl.serviceInterface(), public void tech.gdev.springbasicexplore.aop.springaop.AspectOperationJdkProxyImpl.serviceMethod()]
+        Set<Class<?>> interfaceSet = ClassUtils.getAllInterfacesForClassAsSet(AspectOperationJdkProxyImpl.class);
+        System.out.println("interfaceSet: " + interfaceSet);
+        Method[] methodsFromInterface = ReflectionUtils.getAllDeclaredMethods(interfaceSet.iterator().next());
+        System.out.println("methodsFromInterface: " + Arrays.deepToString(methodsFromInterface));
+        Method[] methodsFromImpl = ReflectionUtils.getAllDeclaredMethods(AspectOperationJdkProxyImpl.class);
+        methodsFromImpl = Arrays.stream(methodsFromImpl)
+                .filter(item -> item.toString().contains("tech.gdev."))
+                .collect(Collectors.toList()).toArray(new Method[0]);
+        System.out.println("methodsFromImpl: " + Arrays.deepToString(methodsFromImpl));
+
 
         Thread.sleep(10*1000L);
         applicationContext.close();
