@@ -1,11 +1,18 @@
 ## 介绍
 
-Java Spring 学习笔记
+> Java Spring 学习笔记
 
 阅读 Spring 源码。
 
-学习入口： tech.gdev.springbasicexplore.AppCodeExplore.main
+学习入口： 
+- 完整启动 SpringBoot 项目：tech.gdev.springbasicexplore.App.main
+- 单点调试
+  - 类名称以 `Explore` 作为后缀的类，通常支持单点调试，示例如下：
+  - 非 SpringBoot 启动：tech.gdev.springbasicexplore.AppCodeExplore.main
+  - Spring AOP 功能：tech.gdev.springbasicexplore.aop.springaop.AspectExplore.main
 
+## 学习笔记
+- http://www.gdev.tech/tags/springsourcecode/
 
 
 ## 参考文章
