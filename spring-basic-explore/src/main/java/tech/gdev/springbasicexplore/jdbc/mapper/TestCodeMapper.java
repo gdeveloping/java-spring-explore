@@ -3,6 +3,7 @@ package tech.gdev.springbasicexplore.jdbc.mapper;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import tech.gdev.springbasicexplore.jdbc.entity.TestCode;
@@ -19,10 +20,12 @@ public interface TestCodeMapper {
     @Insert("INSERT INTO test_code(id, code, note) VALUES(#{id}, #{code}, #{note})")
     int insert(TestCode testCode);
 
-    @Select("SELECT * FROM test_code WHERE id = #{id}")
-    TestCode selectById(int id);
+    List<TestCode> selectByOption(@Param("param") TestCode queryOption);
 
-    TestCode selectByCode(int code);
+    @Select("SELECT * FROM test_code WHERE id = #{id}")
+    TestCode selectById(Integer id);
+
+    List<TestCode> selectByCode(int code);
 
     List<TestCode> selectAll();
 
@@ -33,5 +36,7 @@ public interface TestCodeMapper {
     int updateCodeById(TestCode testCode);
 
     @Delete("DELETE FROM test_code WHERE id = #{id}")
-    int deleteById(int id);
+    int deleteById(Integer id);
+
+    int deleteByIds(@Param("param") List<Integer> ids);
 }

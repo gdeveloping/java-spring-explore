@@ -9,10 +9,12 @@ import org.springframework.transaction.TransactionStatus;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.transaction.support.DefaultTransactionDefinition;
 import org.springframework.transaction.support.TransactionTemplate;
+import org.springframework.util.CollectionUtils;
 import tech.gdev.springbasicexplore.jdbc.entity.TestCode;
 import tech.gdev.springbasicexplore.jdbc.mapper.TestCodeMapper;
 import tech.gdev.springbasicexplore.support.exception.runtimeexception.DebugRuntimeException;
 
+import java.util.Collections;
 import java.util.List;
 
 /**
@@ -34,11 +36,15 @@ public class TestCodeService {
     @Autowired
     private PlatformTransactionManager transactionManager;
 
-    public TestCode getById(int id) {
+    public List<TestCode> getByOption(TestCode queryOption) {
+        return testCodeMapper.selectByOption(queryOption);
+    }
+
+    public TestCode getById(Integer id) {
         return testCodeMapper.selectById(id);
     }
 
-    public TestCode getByCode(int code) {
+    public List<TestCode> getByCode(Integer code) {
         return testCodeMapper.selectByCode(code);
     }
 
@@ -60,8 +66,15 @@ public class TestCodeService {
         return res;
     }
 
-    public int delete(int id) {
+    public int delete(Integer id) {
         return transactionTemplate.execute(status -> testCodeMapper.deleteById(id));
+    }
+
+    public int delete(List<Integer> ids) {
+        if (CollectionUtils.isEmpty(ids)) {
+            return 0;
+        }
+        return testCodeMapper.deleteByIds(ids);
     }
 
     @Transactional

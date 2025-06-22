@@ -9,6 +9,21 @@
         <result column="note" property="note" />
     </resultMap>
 
+    <select id="selectByOption" resultMap="BaseResultMap">
+        SELECT * FROM test_code
+        <where>
+            <if test="param.id != null">
+                and id = #{param.id}
+            </if>
+            <if test="param.code != null">
+                and code = #{param.code}
+            </if>
+            <if test="param.note != null">
+                and note = #{param.note}
+            </if>
+        </where>
+    </select>
+
     <select id="selectByCode" resultMap="BaseResultMap">
         SELECT * FROM test_code WHERE code = #{code}
     </select>
@@ -16,4 +31,12 @@
     <select id="selectAll" resultMap="BaseResultMap">
         SELECT * FROM test_code
     </select>
+
+    <delete id="deleteByIds">
+        DELETE FROM test_code
+        WHERE id in
+        <foreach collection="param" item="id" open="(" close=")" separator=",">
+            #{id}
+        </foreach>
+    </delete>
 </mapper>

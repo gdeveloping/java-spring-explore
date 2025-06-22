@@ -1,9 +1,14 @@
 package tech.gdev.springbasicexplore.jdbc.entity;
 
+import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
 import lombok.Setter;
+
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Size;
 
 /**
  * @author gdev
@@ -13,9 +18,12 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@JacksonXmlRootElement(localName = "testCode")
 public class TestCode {
-    private int id;
-    private int code;
+    @NotBlank
+    @Size(min = 1)
+    private Integer id;
+    private Integer code;
     private String note;
 
     @Override
