@@ -2,9 +2,9 @@ package tech.gdev.springbasicexplore.controller;
 
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import lombok.extern.log4j.Log4j2;
 import org.hibernate.validator.constraints.Length;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.annotation.Validated;
@@ -14,12 +14,13 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import tech.gdev.springbasicexplore.async.AsyncCircularBeanA;
-import tech.gdev.springbasicexplore.async.AsyncCircularBeanB;
 
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.Positive;
+import javax.validation.constraints.Size;
 import java.util.Collections;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -32,14 +33,9 @@ import java.util.Map;
 @Validated
 @Log4j2
 public class ControllerBean {
-    @Autowired
-    AsyncCircularBeanA asyncCircularBeanA;
 
-    @Autowired
-    AsyncCircularBeanB asyncCircularBeanB;
-
-    @GetMapping("/hello")
-    public Map hello(@RequestParam(value = "name", required = false) String name) {
+    @GetMapping("/hello1")
+    public Map<String, String> hello(@RequestParam(value = "name", required = false) String name) {
         if (!StringUtils.hasLength(name)) {
             name = "DefaultName";
         }
@@ -47,20 +43,13 @@ public class ControllerBean {
     }
 
     @GetMapping("/hello2/{name}")
-    public Map hello2(@PathVariable(value = "name") @Length(min = 2) String name) {
+    public Map<String, String> hello2(@PathVariable(value = "name") @Length(min = 2) String name) {
         return Collections.singletonMap("body", "Hello, " + name);
     }
 
     @GetMapping("/person-info")
-    public Map build(@Validated @RequestBody PersonInfo personInfo) {
+    public Map<String, String> build(@RequestBody PersonInfo personInfo) {
         return Collections.singletonMap("body", "Hello, " + personInfo.name);
-    }
-
-    @GetMapping("/async")
-    public Map async() {
-        asyncCircularBeanA.asyncMethodA();
-        asyncCircularBeanB.asyncMethodB();
-        return Collections.singletonMap("body", "async");
     }
 
     @Getter
@@ -71,5 +60,34 @@ public class ControllerBean {
 
         @Positive
         private int age;
+
+        @Valid
+        @Size(max = 3)
+        private List<PetInfo> pets;
+    }
+
+    @Setter
+    @Getter
+    @ToString
+    class PetInfo {
+        @NotBlank
+        private String petName;
+
+        @Positive
+        private int age;
+
+        @Valid
+        private List<ToyInfo> toys;
+    }
+
+    @Setter
+    @Getter
+    @ToString
+    static class ToyInfo {
+        @NotBlank
+        private String toyName;
+
+        @Positive
+        private int weight;
     }
 }
