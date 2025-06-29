@@ -1,3 +1,9 @@
+TRUNCATE test_code;
+TRUNCATE test_user;
+TRUNCATE test_order;
+TRUNCATE "order";
+TRUNCATE "user";
+
 INSERT INTO test_code VALUES (1, 1001, 'test code 1');
 INSERT INTO test_code VALUES (2, 1002, 'test code 2');
 

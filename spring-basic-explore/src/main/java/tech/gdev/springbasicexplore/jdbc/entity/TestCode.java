@@ -4,11 +4,10 @@ import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 import lombok.Setter;
 
 import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.Size;
+import javax.validation.constraints.Positive;
 
 /**
  * @author gdev
@@ -21,9 +20,12 @@ import javax.validation.constraints.Size;
 @JacksonXmlRootElement(localName = "testCode")
 public class TestCode {
     @NotBlank
-    @Size(min = 1)
+    @Positive
     private Integer id;
+
+    @Positive
     private Integer code;
+
     private String note;
 
     @Override

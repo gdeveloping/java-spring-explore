@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +18,7 @@ import tech.gdev.springbasicexplore.jdbc.entity.TestCode;
 import tech.gdev.springbasicexplore.jdbc.service.TestCodeService;
 import tech.gdev.springbasicexplore.support.exception.runtimeexception.DebugRuntimeException;
 
+import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Objects;
 
@@ -27,13 +29,16 @@ import java.util.Objects;
 @Log4j2
 @RestController
 @RequestMapping("/jdbc/test-code")
+@Validated
 public class TestCodeController {
 
     @Autowired
     private TestCodeService testCodeService;
 
     @GetMapping
-    public List<TestCode> getByOption(@RequestParam(value = "id", required = false) Integer id, @RequestParam(value = "code", required = false) Integer code, @RequestParam(value = "note", required = false) String note) {
+    public List<TestCode> getByOption(@RequestParam(value = "id", required = false) Integer id,
+                                      @RequestParam(value = "code", required = false) Integer code,
+                                      @RequestParam(value = "note", required = false) String note) {
         return testCodeService.getByOption(new TestCode(id, code, note));
     }
 
@@ -43,12 +48,12 @@ public class TestCodeController {
     }
 
     @GetMapping("/id/{id}")
-    public ResponseEntity<TestCode> getById(@PathVariable Integer id) {
+    public ResponseEntity<TestCode> getById(@PathVariable @Positive Integer id) {
         return ResponseEntity.ok(testCodeService.getById(id));
     }
 
     @GetMapping("/code/{code}")
-    public ResponseEntity<List<TestCode>> getByCode(@PathVariable int code) {
+    public ResponseEntity<List<TestCode>> getByCode(@PathVariable @Positive int code) {
         return ResponseEntity.ok(testCodeService.getByCode(code));
     }
 
@@ -63,7 +68,7 @@ public class TestCodeController {
             consumes = {MediaType.APPLICATION_FORM_URLENCODED_VALUE, MediaType.MULTIPART_FORM_DATA_VALUE},
             produces = MediaType.APPLICATION_XML_VALUE
     )
-    public TestCode save2(@RequestParam("code") Integer code, @RequestParam("note") String note, @RequestParam("id") Integer id) {
+    public TestCode save2(@RequestParam("code") @Positive Integer code, @RequestParam("note") String note, @RequestParam("id") @Positive Integer id) {
         TestCode testCode = new TestCode(id, code, note);
         mustNotExists(testCode);
         testCodeService.save(testCode);
