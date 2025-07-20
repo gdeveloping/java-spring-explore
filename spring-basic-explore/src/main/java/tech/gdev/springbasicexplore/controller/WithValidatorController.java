@@ -20,8 +20,13 @@ import java.util.Map;
 @Validated
 @Log4j2
 public class WithValidatorController {
-    @GetMapping("/person-info/")
-    public Map<String, String> build(@RequestBody PersonInfo personInfo) {
+    @GetMapping("/person-info/way1")
+    public Map<String, String> build1(@RequestBody PersonInfo personInfo) {
+        return Collections.singletonMap("body", "Hello, " + personInfo.getName());
+    }
+
+    @GetMapping("/person-info/way2")
+    public Map<String, String> build2(@Validated PersonInfo personInfo) {
         return Collections.singletonMap("body", "Hello, " + personInfo.getName());
     }
 }

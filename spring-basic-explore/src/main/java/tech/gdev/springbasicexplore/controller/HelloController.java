@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.validation.constraints.Size;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
@@ -24,7 +26,7 @@ import java.util.Map;
 public class HelloController {
 
     @GetMapping("/hello")
-    public Map<String, String> hello1(@RequestParam(value = "name", required = false) @Validated @Length(min = 2) String name) {
+    public Map<String, String> hello1(@RequestParam(value = "name", required = false) @Length(min = 2) String name) {
         if (!StringUtils.hasLength(name)) {
             name = "DefaultName";
         }
@@ -38,6 +40,14 @@ public class HelloController {
     @GetMapping("/hello/{name}/morning")
     public Map<String, String> hello2(@PathVariable(value = "name") @Length(min = 2) String name) {
         return Collections.singletonMap("body", "Hello, " + name + " , morning");
+    }
+
+    /**
+     * MethodValidationInterceptor 校验入参
+     */
+    @GetMapping("/hello/people")
+    public Map<String, String> hello3(@RequestParam(value = "names") @Size(min = 2) String[] names) {
+        return Collections.singletonMap("body", "Hello, " + Arrays.toString(names));
     }
 
     /**
