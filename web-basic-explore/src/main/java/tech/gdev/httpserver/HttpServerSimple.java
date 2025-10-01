@@ -10,7 +10,7 @@ import java.nio.channels.SocketChannel;
 import java.nio.charset.Charset;
 import java.util.Iterator;
 
-public class HttpServer {
+public class HttpServerSimple {
     public static void main(String[] args) throws Exception {
         //创建ServerSocketChannel，监听8080端口
         ServerSocketChannel ssc = ServerSocketChannel.open();
