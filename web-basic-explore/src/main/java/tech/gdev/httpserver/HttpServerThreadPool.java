@@ -56,7 +56,7 @@ public class HttpServerThreadPool {
                     SERVICE.submit(new NioServerHandler((SocketChannel) key.channel()));
                     // 该 Client 请求提交给客户端后，key.cancel 可以解除监听
                     key.cancel();
-                    System.out.println("Submit task and cancel.");
+                    System.out.println("Submit task and cancel this SelectionKey.");
                 }
                 // 处理完后，从待处理的SelectionKey迭代器中移除当前所使用的key
                 keyIter.remove();
@@ -94,9 +94,11 @@ public class HttpServerThreadPool {
             try {
                 ByteBuffer buffer = ByteBuffer.allocate(1024);
                 socketChannel.read(buffer);
-                String reqMsg = new String(buffer.array(), StandardCharsets.UTF_8);
-                buffer.flip();
-                buffer.clear();
+                buffer.flip(); // 切换为读模式
+                byte[] data = new byte[buffer.remaining()]; // 只分配实际读取的数据大小
+                buffer.get(data); // 将有效数据复制到新数组
+                String reqMsg = new String(data, StandardCharsets.UTF_8);
+                buffer.clear(); // 清空缓冲区准备下一次读取
                 socketChannel.write(getOutBuffer(StandardCharsets.UTF_8.displayName(), reqMsg));
                 System.out.println();
                 System.out.println("接收到 client request:\n" + reqMsg);
