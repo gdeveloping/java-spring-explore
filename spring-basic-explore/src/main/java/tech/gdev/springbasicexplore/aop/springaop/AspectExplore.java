@@ -73,6 +73,8 @@ public class AspectExplore {
                 .collect(Collectors.toList()).toArray(new Method[0]);
         System.out.println("methodsFromImpl: " + Arrays.deepToString(methodsFromImpl));
 
+        AspectArgumentTask  aspectArgumentTask = applicationContext.getBean(AspectArgumentTask.class);
+        aspectArgumentTask.testArguments1("input1", "input2");
 
         Thread.sleep(10*1000L);
         applicationContext.close();
