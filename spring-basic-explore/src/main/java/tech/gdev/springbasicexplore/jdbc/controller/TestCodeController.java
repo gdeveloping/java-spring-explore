@@ -18,6 +18,7 @@ import tech.gdev.springbasicexplore.jdbc.entity.TestCode;
 import tech.gdev.springbasicexplore.jdbc.service.TestCodeService;
 import tech.gdev.springbasicexplore.support.exception.runtimeexception.DebugRuntimeException;
 
+import javax.validation.Valid;
 import javax.validation.constraints.Positive;
 import java.util.List;
 import java.util.Objects;
@@ -58,7 +59,7 @@ public class TestCodeController {
     }
 
     @PostMapping(value = "/save", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<TestCode> save1(@RequestBody TestCode testCode) {
+    public ResponseEntity<TestCode> save1(@Validated @RequestBody TestCode testCode) {
         mustNotExists(testCode);
         testCodeService.save(testCode);
         return ResponseEntity.ok(testCode);
@@ -89,21 +90,21 @@ public class TestCodeController {
     }
 
     @PostMapping("/update/code")
-    public ResponseEntity<TestCode> updateCodeById(@RequestBody TestCode testCode) {
+    public ResponseEntity<TestCode> updateCodeById(@Valid @RequestBody TestCode testCode) {
         mustExists(testCode);
         testCodeService.updateCodeById(testCode);
         return ResponseEntity.ok(testCodeService.getById(testCode.getId()));
     }
 
     @PostMapping("/update/note")
-    public ResponseEntity<TestCode> updateNoteById(@RequestBody TestCode testCode) {
+    public ResponseEntity<TestCode> updateNoteById(@Valid @RequestBody TestCode testCode) {
         mustExists(testCode);
         testCodeService.updateNoteById(testCode);
         return ResponseEntity.ok(testCodeService.getById(testCode.getId()));
     }
 
     @PostMapping("/debug/update-then-rollback1")
-    public ResponseEntity<TestCode> updateThenRollbackById1(@RequestBody TestCode testCode) {
+    public ResponseEntity<TestCode> updateThenRollbackById1(@Valid @RequestBody TestCode testCode) {
         mustExists(testCode);
         try {
             testCodeService.updateThenRollbackById1(testCode);
@@ -116,7 +117,7 @@ public class TestCodeController {
     }
 
     @PostMapping("/debug/update-then-rollback2")
-    public ResponseEntity<TestCode> updateThenRollbackById2(@RequestBody TestCode testCode) {
+    public ResponseEntity<TestCode> updateThenRollbackById2(@Valid @RequestBody TestCode testCode) {
         mustExists(testCode);
         try {
             testCodeService.updateThenRollbackById2(testCode);
